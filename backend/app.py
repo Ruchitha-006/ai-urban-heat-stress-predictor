@@ -1,12 +1,14 @@
 import requests
-import os
 
-API_KEY = os.getenv("61d8bc3f9918e72570cc542bf92c2089")
+API_KEY = "0513146720"
 
 def get_weather(city: str):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
     response = requests.get(url)
     data = response.json()
+
+    if response.status_code != 200:
+        raise Exception(data.get("message", "API Error"))
 
     return {
         "temperature": data["main"]["temp"],
