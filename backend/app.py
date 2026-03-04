@@ -3,43 +3,75 @@ import numpy as np
 import joblib
 from backend.utils import get_weather
 
-app = FastAPI()
+# Initialize FastAPI
+app = FastAPI(
+    title="AI Urban Heat Stress Predictor",
+    description="Predicts heat stress risk using weather data and user inputs",
+    version="1.0"
+)
 
-# Load model
+# Load trained ML model
 model = joblib.load("model/heat_stress_model.pkl")
+
 
 @app.get("/")
 def home():
     return {"message": "AI Urban Heat Stress Predictor API Running"}
 
+
 @app.post("/predict")
 def predict(data: dict):
-    try:
-        weather = get_weather(data["city"])
+    """
+    Predict heat stress risk based on:
+    - city
+    - age
+    - working_hours
+    - hydration_level
+    """
 
+    try:
+        city = data["city"]
+        age = data["age"]
+        working_hours = data["working_hours"]
+        hydration_level = data["hydration_level"]
+
+        # Get weather data
+        weather = get_weather(city)
+
+        temperature = weather["temperature"]
+        humidity = weather["humidity"]
+        wind_speed = weather["wind_speed"]
+        uv_index = weather["uv_index"]
+
+        # Prepare ML input
         features = np.array([[
-            weather["temperature"],
-            weather["humidity"],
-            weather["wind_speed"],
-            weather["uv_index"],
-            data["age"],
-            data["working_hours"],
-            data["hydration_level"]
+            temperature,
+            humidity,
+            wind_speed,
+            uv_index,
+            age,
+            working_hours,
+            hydration_level
         ]])
 
-        risk = float(model.predict(features)[0])
+        # Predict risk score
+        risk_score = float(model.predict(features)[0])
 
-        if risk < 25:
+        # Risk category
+        if risk_score < 25:
             category = "Safe"
-        elif risk < 50:
+        elif risk_score < 50:
             category = "Moderate"
-        elif risk < 75:
+        elif risk_score < 75:
             category = "High"
         else:
             category = "Critical"
 
         return {
-            "risk_score": round(risk, 2),
+            "city": city,
+            "temperature": temperature,
+            "humidity": humidity,
+            "risk_score": round(risk_score, 2),
             "category": category
         }
 
