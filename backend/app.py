@@ -1,17 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 import numpy as np
 import joblib
 from backend.utils import get_weather
 
-# Initialize FastAPI
-app = FastAPI(
-    title="AI Urban Heat Stress Predictor",
-    description="Predicts heat stress risk using weather data and user inputs",
-    version="1.0"
-)
+app = FastAPI()
 
-# Load trained ML model
 model = joblib.load("model/heat_stress_model.pkl")
+
+
+# Request schema
+class UserInput(BaseModel):
+    city: str
+    age: int
+    working_hours: int
+    hydration_level: int
 
 
 @app.get("/")
@@ -20,44 +23,23 @@ def home():
 
 
 @app.post("/predict")
-def predict(data: dict):
-    """
-    Predict heat stress risk based on:
-    - city
-    - age
-    - working_hours
-    - hydration_level
-    """
+def predict(data: UserInput):
 
     try:
-        city = data["city"]
-        age = data["age"]
-        working_hours = data["working_hours"]
-        hydration_level = data["hydration_level"]
+        weather = get_weather(data.city)
 
-        # Get weather data
-        weather = get_weather(city)
-
-        temperature = weather["temperature"]
-        humidity = weather["humidity"]
-        wind_speed = weather["wind_speed"]
-        uv_index = weather["uv_index"]
-
-        # Prepare ML input
         features = np.array([[
-            temperature,
-            humidity,
-            wind_speed,
-            uv_index,
-            age,
-            working_hours,
-            hydration_level
+            weather["temperature"],
+            weather["humidity"],
+            weather["wind_speed"],
+            weather["uv_index"],
+            data.age,
+            data.working_hours,
+            data.hydration_level
         ]])
 
-        # Predict risk score
         risk_score = float(model.predict(features)[0])
 
-        # Risk category
         if risk_score < 25:
             category = "Safe"
         elif risk_score < 50:
@@ -68,9 +50,9 @@ def predict(data: dict):
             category = "Critical"
 
         return {
-            "city": city,
-            "temperature": temperature,
-            "humidity": humidity,
+            "city": data.city,
+            "temperature": weather["temperature"],
+            "humidity": weather["humidity"],
             "risk_score": round(risk_score, 2),
             "category": category
         }
