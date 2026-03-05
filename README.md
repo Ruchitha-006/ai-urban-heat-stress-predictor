@@ -208,15 +208,6 @@ Category: Safe
 * Geographic heat maps
 * Personalized hydration recommendations
 
----
-
-## 👨‍💻 Author
-
-**Ruchitha B**
-
-AI / Data Science Enthusiast
-
----
 
 ## 📜 License
 
