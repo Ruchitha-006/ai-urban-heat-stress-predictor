@@ -1,0 +1,51 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+cleanenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Data files (optional if large)
+data/*.csv
+
+# Model files (optional if large)
+model/*.pkl
+
+# Temporary files
+*.tmp
+*.temp
+
+# Docker files (if unused)
+deployment/
+
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Cache
+.cache/
