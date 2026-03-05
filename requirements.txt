@@ -7,3 +7,15 @@ numpy
 pandas
 scikit-learn
 joblib
+
+
+Package  	    Purpose
+fastapi	        API framework
+uvicorn	        ASGI server
+requests	    Call weather API
+pydantic	    Data validation
+numpy	        numerical operations
+pandas	        data processing
+scikit-learn	ML model
+joblib	        load trained model
+python-dotenv	manage API keys
