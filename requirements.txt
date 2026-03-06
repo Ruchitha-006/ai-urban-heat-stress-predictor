@@ -1,3 +1,14 @@
+fastapi
+uvicorn
+requests
+pydantic
+python-dotenv
+numpy
+pandas
+scikit-learn
+joblib
+
+
 
 Package  	    Purpose
 fastapi	        API framework
