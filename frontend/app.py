@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Backend API URL
-API_URL = "http://127.0.0.1:8000/predict"
+API_URL = "https://ai-urban-heat-stress-predictor.onrender.com/predict"
 
 st.set_page_config(page_title="Urban Heat Stress Predictor", layout="centered")
 
