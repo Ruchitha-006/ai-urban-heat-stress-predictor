@@ -190,15 +190,10 @@ Hydration Level: 3
 ```
 
 Output:
-
-```
 Temperature: 30.7°C
 Humidity: 17%
 Risk Score: 20.9
 Category: Safe
-```
-
----
 
 ## 📈 Future Improvements
 
