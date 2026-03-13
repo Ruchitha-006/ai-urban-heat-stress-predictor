@@ -131,7 +131,6 @@ Mac/Linux:
 
 ```bash
 source venv/bin/activate
-```
 
 ---
 
