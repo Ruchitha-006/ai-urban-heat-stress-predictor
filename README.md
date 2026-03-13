@@ -187,7 +187,6 @@ City: Delhi
 Age: 30
 Working Hours: 8
 Hydration Level: 3
-```
 
 Output:
 Temperature: 30.7°C
