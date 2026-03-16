@@ -3,7 +3,7 @@ import requests
 import time
 
 # Backend API URL (Render)
-API_URL = "http://127.0.0.1:8001/predict"
+API_URL = "https://ai-urban-heat-stress-predictor.onrender.com/predict"
 
 # Page configuration
 st.set_page_config(
